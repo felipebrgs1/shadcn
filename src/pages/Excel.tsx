@@ -26,12 +26,28 @@ import {
   Table2,
 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-// Esta é apenas uma implementação básica para fins de demonstração
-// Para um aplicativo real, você precisaria usar uma biblioteca de gráficos como Chart.js ou Recharts
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 interface DataItem {
-  [key: string]: any;
+  [key: string]: string | number | boolean | null | undefined;
 }
 
 function Excel() {
@@ -63,7 +79,7 @@ function Excel() {
 
         if (rawData.length > 0) {
           setData(rawData as DataItem[]);
-          setColumns(Object.keys(rawData[0]));
+          setColumns(Object.keys(rawData[0] as object));
           setImportStatus({
             message: `Importados ${rawData.length} registros com sucesso!`,
             type: "success",
@@ -118,55 +134,46 @@ function Excel() {
     });
   };
 
-  // Renderizar um gráfico de barras simples com CSS
-  // Em um aplicativo real, você usaria uma biblioteca de gráficos
+  // Renderizar um gráfico de barras simples com Chart.js
   const renderChart = () => {
     if (data.length === 0 || columns.length < 2) return null;
 
-    // Vamos pegar duas colunas para demonstração
     const labelCol = columns[0];
     const dataCol = columns[1];
-
-    // Pegamos apenas os primeiros 10 itens para o gráfico
     const chartData = data.slice(0, 10);
 
-    // Encontrar o valor máximo para escalar as barras
-    const maxValue = Math.max(
-      ...chartData.map((item) =>
-        typeof item[dataCol] === "number" ? item[dataCol] : 0,
-      ),
+    const labels = chartData.map((item) => String(item[labelCol]));
+    const values = chartData.map((item) =>
+      typeof item[dataCol] === "number" ? item[dataCol] : 0,
     );
 
-    return (
-      <div className="mt-6">
-        <h3 className="text-lg font-medium mb-4">
-          Visualização dos dados ({dataCol} por {labelCol})
-        </h3>
-        <div className="flex items-end space-x-2 h-64 border-b border-l p-4">
-          {chartData.map((item, index) => {
-            const value = typeof item[dataCol] === "number" ? item[dataCol] : 0;
-            const height = `${(value / maxValue) * 100}%`;
-            const label = String(item[labelCol]);
+    const chartOptions = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top" as const,
+        },
+        title: {
+          display: true,
+          text: `Visualização dos dados (${dataCol} por ${labelCol})`,
+        },
+      },
+    };
 
-            return (
-              <div key={index} className="flex flex-col items-center">
-                <div
-                  className="w-10 bg-blue-500 hover:bg-blue-600 transition-all rounded-t"
-                  style={{ height }}
-                  title={`${label}: ${value}`}
-                ></div>
-                <div
-                  className="text-xs mt-2 w-16 text-center truncate"
-                  title={label}
-                >
-                  {label}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
+    const chartDataConfig = {
+      labels,
+      datasets: [
+        {
+          label: dataCol,
+          data: values,
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    return <Bar options={chartOptions} data={chartDataConfig} />;
   };
 
   return (
