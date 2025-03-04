@@ -29,7 +29,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import {ModeToggle} from "@/components/mode-toggle.tsx";
 
 export function NavUser({
   user,
@@ -78,7 +77,6 @@ export function NavUser({
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
-                <ModeToggle />
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
