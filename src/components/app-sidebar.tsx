@@ -17,6 +17,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { NavProjects } from "./nav-projects";
 
 // This is sample data.
 const data = {
@@ -35,6 +36,19 @@ const data = {
       name: "Acme Corp.",
       logo: AudioWaveform,
       plan: "Premium",
+    },
+  ],
+
+  dashboard: [
+    {
+      name: "Dashboard",
+      url: "/",
+      icon: PieChart,
+    },
+    {
+      name: "Menu",
+      url: "/Tools",
+      icon: Map,
     },
   ],
   navMain: [
@@ -66,6 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
+        <NavProjects projects={data.dashboard} />
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
