@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   AudioWaveform,
   CalendarIcon,
-  ChevronRight,
   GalleryVerticalEnd,
   Map,
   PieChart,
@@ -17,16 +16,10 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavProjects } from "./nav-projects";
 import { Calendar } from "@/components/ui/calendar"; // Import the calendar component
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@radix-ui/react-collapsible";
 
 // This is sample data.
 const data = {
@@ -79,6 +72,20 @@ const data = {
         },
       ],
     },
+    {
+      title: "Calendar",
+      url: "/calendar",
+      icon: CalendarIcon,
+      isActive: false,
+      items: [
+        {
+          title: "View Calendar",
+          url: "/calendar",
+          icon: CalendarIcon,
+          content: <Calendar />,
+        },
+      ],
+    },
   ],
 };
 
@@ -91,18 +98,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavProjects projects={data.dashboard} />
         <NavMain items={data.navMain} />
-        <Collapsible>
-          <CollapsibleTrigger asChild>
-            <SidebarMenuButton>
-              <CalendarIcon className="mr-2" />
-              <span>Calendar</span>
-              <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-            </SidebarMenuButton>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <Calendar />
-          </CollapsibleContent>
-        </Collapsible>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

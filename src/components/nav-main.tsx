@@ -30,6 +30,7 @@ export function NavMain({
       title: string;
       icon?: LucideIcon;
       url: string;
+      content?: React.ReactNode;
     }[];
   }[];
 }) {
@@ -56,12 +57,16 @@ export function NavMain({
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          {subItem.icon && <subItem.icon className="mr-2" />}
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
+                      {subItem.content ? (
+                        <div className="px-4 py-1">{subItem.content}</div>
+                      ) : (
+                        <SidebarMenuSubButton asChild>
+                          <a href={subItem.url}>
+                            {subItem.icon && <subItem.icon className="mr-2" />}
+                            <span>{subItem.title}</span>
+                          </a>
+                        </SidebarMenuSubButton>
+                      )}
                     </SidebarMenuSubItem>
                   ))}
                 </SidebarMenuSub>
