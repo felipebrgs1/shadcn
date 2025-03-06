@@ -15,6 +15,12 @@ const tools = [
     icon: Map,
     link: "/todo",
   },
+  {
+    title: "Pomodoro",
+    description: "Cronômetro Pomodoro.",
+    icon: Map,
+    link: "/pomodoro",
+  },
 ];
 
 const Tools = () => {
