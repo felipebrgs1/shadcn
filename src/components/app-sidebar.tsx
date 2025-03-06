@@ -6,6 +6,7 @@ import {
   Map,
   PieChart,
   SquareTerminal,
+  TimerIcon, // Import the TimerIcon
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -69,6 +70,11 @@ const data = {
           title: "To Do",
           url: "/todo",
           icon: Map,
+        },
+        {
+          title: "Pomodoro",
+          url: "/pomodoro",
+          icon: TimerIcon,
         },
       ],
     },
